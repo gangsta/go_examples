@@ -88,7 +88,7 @@ func handleRequest(conn net.Conn) {
 }
 
 func curlRequest() {
-  cmd := exec.Command("curl", "-s", "-k", "-o", "-w \"%{http_code}\"", "-XGET", "http://172.17.8.101:3033")
+  cmd := exec.Command("curl", "-s", "-k", "-o", "-w \"%{http_code}\"", "-XGET", "http://172.17.8.101:30333")
   cmd.Stdout = os.Stdout
   cmd.Stderr = os.Stderr
   err := cmd.Run()

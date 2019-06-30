@@ -6,10 +6,12 @@ import (
     "os"
     "strconv"
     "bytes"
+    "os/exec"
+    "log"
 )
 const (
     CONN_HOST = ""
-    CONN_PORT = "80"
+    CONN_PORT = "3034"
     CONN_TYPE = "tcp"
 )
 func main() {
@@ -81,5 +83,16 @@ func handleRequest(conn net.Conn) {
   // Write the message in the connection channel.
   conn.Write([]byte(message));
   // Close the connection when you`re done with it.
+  go curlRequest()
   conn.Close()
+}
+
+func curlRequest() {
+  cmd := exec.Command("curl", "-s", "-k", "-o", "-w \"%{http_code}\"", "-XGET", "http://172.17.8.101:3033")
+  cmd.Stdout = os.Stdout
+  cmd.Stderr = os.Stderr
+  err := cmd.Run()
+  if err != nil {
+    log.Printf("cmd.Run() failed with %s\n", err)
+  }
 }
